@@ -10,7 +10,7 @@ from filer import settings as filer_settings
 # greedy so it should match the last occurence of `__`.
 # in ``ThumbnailerNameMixin.get_thumbnail_name`` we ensure that there is no `__`
 # in the opts part.
-RE_ORIGINAL_FILENAME = re.compile(r"^(?P<source_filename>.*)__(?P<opts_and_ext>.*?)$")
+RE_ORIGINAL_FILENAME = re.compile(r"^(?P<source_filename>.*)--(?P<opts_and_ext>.*?)$")
 
 
 def thumbnail_to_original_filename(thumbnail_name):
@@ -54,19 +54,19 @@ class ThumbnailerNameMixin(object):
         opts = ['%s' % (v is not True and '%s-%s' % (k, v) or k)
                 for k, v in opts if v]
 
-        all_opts = '_'.join(initial_opts + opts)
+        all_opts = '-'.join(initial_opts + opts)
 
         basedir = self.thumbnail_basedir
         subdir = self.thumbnail_subdir
 
         #make sure our magic delimiter is not used in all_opts
-        all_opts = all_opts.replace('__', '_')
+        all_opts = all_opts.replace('--', '-')
         if high_resolution:
             try:
                 all_opts += self.thumbnail_highres_infix
             except AttributeError:
                 all_opts += '@2x'
-        filename = '%s__%s.%s' % (source_filename, all_opts, extension)
+        filename = '%s--%s.%s' % (source_filename, all_opts, extension)
 
         return os.path.join(basedir, path, subdir, filename)
 

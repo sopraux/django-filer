@@ -83,7 +83,7 @@ class FilerApiTests(TestCase):
         self.assertEqual(len(icons), len(filer_settings.FILER_ADMIN_ICON_SIZES))
         for size in filer_settings.FILER_ADMIN_ICON_SIZES:
             self.assertEqual(os.path.basename(icons[size]),
-                             file_basename + '__%sx%s_q85_crop_upscale.jpg' % (size, size))
+                             file_basename + '--%sx%s-q85-crop-upscale.jpg' % (size, size))
 
     @skipUnless(ET_2, 'Skipping for easy_thumbnails version < 2.0')
     def test_create_icons(self):
@@ -94,7 +94,7 @@ class FilerApiTests(TestCase):
         self.assertEqual(len(icons), len(filer_settings.FILER_ADMIN_ICON_SIZES))
         for size in filer_settings.FILER_ADMIN_ICON_SIZES:
             self.assertEqual(os.path.basename(icons[size]),
-                             file_basename + '__%sx%s_q85_crop_subsampling-2_upscale.jpg' % (size, size))
+                             file_basename + '--%sx%s-q85-crop-subsampling-2-upscale.jpg' % (size, size))
 
     def test_file_upload_public_destination(self):
         """
