@@ -1,6 +1,8 @@
 #-*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.conf import settings
+
 from easy_thumbnails.files import Thumbnailer
 import os
 import re
@@ -49,10 +51,11 @@ class ThumbnailerNameMixin(object):
         quality = thumbnail_options.pop('quality', self.thumbnail_quality)
         initial_opts = ['%sx%s' % size, 'q%s' % quality]
 
+        excluded_opts = getattr(settings, "THUMBNAIL_NAMER_EXCLUDED_OPTIONS", [])
         opts = list(thumbnail_options.items())
         opts.sort()   # Sort the options so the file name is consistent.
         opts = ['%s' % (v is not True and '%s-%s' % (k, v) or k)
-                for k, v in opts if v]
+                for k, v in opts if v and k not in excluded_opts]
 
         all_opts = '-'.join(initial_opts + opts)
 
